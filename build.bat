@@ -6,4 +6,3 @@ cd ..
 rmdir /s /q dist
 rmdir /s /q build
 del /s /q downloader.spec
-del build.bat
