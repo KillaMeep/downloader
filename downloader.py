@@ -2,7 +2,17 @@ import tkinter as tk
 from tkinter import ttk
 import os
 import time
+import subprocess
 os.system('if exist downloads del /s /q downloads')
+if os.path.exists(r'ffmpeg/bin/'):
+    #local ffmpeg install
+    abs_path = os.path.abspath(os.getcwd())
+    ffmpeg_path = abs_path + r'\ffmpeg\bin\ffmpeg.exe'
+    print(ffmpeg_path)
+else:
+    #hoping ffmpeg is in the path :/
+    ffmpeg_path = 'ffmpeg.exe'
+
 def clear_progress(progress_label,root):
     progress_label.config(text='                                  ')
     root.update()
@@ -22,15 +32,19 @@ def download():
         os.system(f'yt-dlp.exe {urls[x]}')
 
     files = os.listdir(os.getcwd())
+    print(files)
     convert_files = []
     final_names = []
-    
     # Check for webms
     for x in range(0, len(files)):
         if '.webm' in files[x]:
+            print(f'Found webm: "{files[x]}"')
             final_names.append(files[x].split(' [')[0].split(".webm")[0])
             convert_files.append(files[x])
-        
+        elif '.mov' in files[x]:
+            print(f'Found mov: "{files[x]}"')
+            final_names.append(files[x].split(' [')[0].split(".mov")[0])
+            convert_files.append(files[x])
     # If there are any webm files, convert them
     if convert_files:
         clear_progress(progress_label,root)
@@ -38,17 +52,22 @@ def download():
         for x in range(0, len(convert_files)):
             progress_label.config(text=f'Converting {x+1}/{len(convert_files)} | {final_names[x]}')
             root.update()  # Update the GUI
-            
-            os.system(f'ffmpeg -fflags +genpts -i "{convert_files[x]}" -r 24 "{final_names[x]}.mp4" > nul 2>&1')
+            subprocess.run(f'"{ffmpeg_path}" -i "{convert_files[x]}" "{final_names[x]}.mp4"')
     clear_progress(progress_label,root)
-    for x in range(0, len(final_names)):
-        progress_label.config(text=f'Copying file(s) {x+1}/{len(final_names)} | {final_names[x]}')
+    for x in range(0, len(files)):
+        print('copying')
+        if final_names != []:
+            progress_label.config(text=f'Copying file(s) {x+1}/{len(final_names)} | {final_names[x]}')
+            os.system(f'copy "{final_names[x]}.mp4" .. > nul 2>&1')
+            
+        else:
+            print(f'filename: "{files[x]}"')
+            progress_label.config(text=f'Copying file(s) {x+1}/{len(files)} | {files[x]}')
+            os.system(f'copy "{files[x]}" .. > nul 2>&1')
         root.update()
-        
-        os.system(f'copy "{final_names[x].split(" [")[0]}.mp4" .. > nul 2>&1')
 
     os.chdir('..')
-    os.system('del /s /q downloads')
+    #os.system('rmdir /s /q downloads')
     clear_progress(progress_label,root)
     for x in range(0,5):
         progress_label.config(text=f'Complete! Closing in {5-x}')
