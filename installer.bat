@@ -2,7 +2,7 @@
 mkdir Downloader
 cd Downloader
 curl --output downloader.py https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py
-curl --output yt-dlp.exe https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe
+curl -L -O https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe
 mkdir ffmpeg_install
 cd ffmpeg_install
 curl --output ffmpeg.zip https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-5.1.2-essentials_build.zip
