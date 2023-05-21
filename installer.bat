@@ -6,6 +6,13 @@ curl --output downloader.py https://raw.githubusercontent.com/KillaMeep/download
 curl --output build.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/build.bat
 pip install tk
 pip install pyinstaller
+
+mkdir ffmpeg
+cd ffmpeg
+curl --output ffmpeg.zip https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-5.1.2-essentials_build.zip
+tar -xf ffmpeg.zip
+del /s /q ffmpeg.zip
+ren ffmpeg* ffmpeg
 start /B /WAIT build.bat
 cd .. && del /s /q installer.bat
 exit

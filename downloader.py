@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-import subprocess
 import time
 os.system('if exist downloads del /s /q downloads')
 def clear_progress(progress_label,root):
@@ -20,7 +19,7 @@ def download():
         progress_label.config(text=f'Downloading {x+1}/{len(urls)}')
         root.update()  # Update the GUI
         
-        subprocess.run(f'yt-dlp.exe {urls[x]}')
+        os.system(f'yt-dlp.exe {urls[x]}')
 
     files = os.listdir(os.getcwd())
     convert_files = []
@@ -31,7 +30,7 @@ def download():
         if '.webm' in files[x]:
             final_names.append(files[x].split(' [')[0].split(".webm")[0])
             convert_files.append(files[x])
-
+        
     # If there are any webm files, convert them
     if convert_files:
         clear_progress(progress_label,root)
@@ -45,10 +44,11 @@ def download():
     for x in range(0, len(final_names)):
         progress_label.config(text=f'Copying file(s) {x+1}/{len(final_names)} | {final_names[x]}')
         root.update()
-        os.system(f'copy "{final_names[x]}.mp4" .. > nul 2>&1')
+        
+        os.system(f'copy "{final_names[x].split(" [")[0]}.mp4" .. > nul 2>&1')
 
     os.chdir('..')
-    os.remove('downloads')
+    os.system('del /s /q downloads')
     clear_progress(progress_label,root)
     for x in range(0,5):
         progress_label.config(text=f'Complete! Closing in {5-x}')
