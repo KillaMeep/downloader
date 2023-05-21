@@ -3,16 +3,16 @@ from tkinter import ttk
 import os
 import time
 import subprocess
+abs_path = os.path.abspath(os.getcwd())
 os.system('if exist downloads del /s /q downloads')
 if os.path.exists(r'ffmpeg/bin/'):
     #local ffmpeg install
-    abs_path = os.path.abspath(os.getcwd())
     ffmpeg_path = abs_path + r'\ffmpeg\bin\ffmpeg.exe'
     print(ffmpeg_path)
 else:
     #hoping ffmpeg is in the path :/
     ffmpeg_path = 'ffmpeg.exe'
-
+yt_dlp_path = abs_path + r'\yt-dlp.exe'
 def clear_progress(progress_label,root):
     progress_label.config(text='                                  ')
     root.update()
@@ -28,8 +28,7 @@ def download():
         # Update the prompt to show progress
         progress_label.config(text=f'Downloading {x+1}/{len(urls)}')
         root.update()  # Update the GUI
-        
-        os.system(f'yt-dlp.exe {urls[x]}')
+        subprocess.run(fr'{yt_dlp_path} {urls[x]}')
 
     files = os.listdir(os.getcwd())
     print(files)
