@@ -67,7 +67,7 @@ def download():
         root.update()
 
     os.chdir('..')
-    #os.system('rmdir /s /q downloads')
+    os.system('rmdir /s /q downloads')
     clear_progress(progress_label,root)
     for x in range(0,5):
         progress_label.config(text=f'Complete! Closing in {5-x}')
