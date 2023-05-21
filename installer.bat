@@ -13,5 +13,4 @@ move ffmpeg .. > nul
 cd ..
 del /s /q ffmpeg_install
 pip install tk
-pip install pyinstaller
 exit
