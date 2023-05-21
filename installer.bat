@@ -11,7 +11,7 @@ del /s /q ffmpeg.zip
 for /D %%i in (ffmpeg-*) do ren %%i ffmpeg
 move ffmpeg .. > nul
 cd ..
-del /s /q ffmpeg_install
+rmdir /s /q ffmpeg_install
 pip install tk
 pip install pyinstaller
 exit
