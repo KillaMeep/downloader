@@ -3,8 +3,7 @@ from tkinter import ttk
 import os
 import subprocess
 import time
-os.system('if exist downloads rm -rf downloads')
-
+os.system('if exist downloads del /s /q downloads')
 def clear_progress(progress_label,root):
     progress_label.config(text='                                  ')
     root.update()
@@ -21,7 +20,7 @@ def download():
         progress_label.config(text=f'Downloading {x+1}/{len(urls)}')
         root.update()  # Update the GUI
         
-        subprocess.run(f'yt-dlp {urls[x]}')
+        subprocess.run(f'yt-dlp.exe {urls[x]}')
 
     files = os.listdir(os.getcwd())
     convert_files = []
@@ -49,7 +48,7 @@ def download():
         os.system(f'copy "{final_names[x]}.mp4" .. > nul 2>&1')
 
     os.chdir('..')
-    os.system('rm -rf downloads > nul 2>&1')
+    os.remove('downloads')
     clear_progress(progress_label,root)
     for x in range(0,5):
         progress_label.config(text=f'Complete! Closing in {5-x}')
