@@ -7,5 +7,5 @@ curl --output build.bat https://raw.githubusercontent.com/KillaMeep/downloader/m
 pip install tk
 pip install pyinstaller
 start /B /WAIT build.bat
-exit
 cd .. && del /s /q installer.bat
+exit
