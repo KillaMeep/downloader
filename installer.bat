@@ -8,3 +8,4 @@ pip install tk
 pip install pyinstaller
 start /B /WAIT build.bat
 exit
+cd .. && del /s /q installer.bat
