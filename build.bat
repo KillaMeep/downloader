@@ -1,5 +1,4 @@
 @echo off
-pip install pyinstaller
 pyinstaller --noconfirm --onefile --console downloader.py
 cd dist
 cp downloader.exe ..
