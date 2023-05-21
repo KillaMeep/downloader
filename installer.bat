@@ -14,4 +14,4 @@ cd ..
 rmdir /s /q ffmpeg_install
 pip install tk
 pip install pyinstaller
-exit
+start /b "" cmd /c del "%~f0"&exit /b
