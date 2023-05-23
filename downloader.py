@@ -3,6 +3,35 @@ from tkinter import ttk
 import os
 import time
 import subprocess
+import requests
+import hashlib
+def update(local_file_path, github_file_url):
+    # Read the local file
+    with open(local_file_path, 'rb') as file:
+        local_data = file.read()
+
+    # Calculate the hash of the local file
+    local_hash = hashlib.sha256(local_data).hexdigest()
+
+    # Fetch the content of the GitHub file
+    response = requests.get(github_file_url)
+    github_data = response.content
+
+    # Calculate the hash of the GitHub file
+    github_hash = hashlib.sha256(github_data).hexdigest()
+
+    # Compare the hashes
+    if local_hash == github_hash:
+        print("Up to date")
+    else:
+        update_q = input("New version detected. Update? (y/n): ")
+        if update_q == 'y':
+            subprocess.run('curl --output updater.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/updater.bat')
+            os.system('start updater.bat')
+            exit(1)
+
+#check for updates
+update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
 abs_path = os.path.abspath(os.getcwd())
 os.system('if exist downloads del /s /q downloads')
 if os.path.exists(r'ffmpeg/bin/'):
