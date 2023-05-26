@@ -27,7 +27,6 @@ def update(local_file_path, github_file_url):
         print("Up to date")
     else:
         result = messagebox.askquestion("Update Available", "New version detected. Update?")
-        print(result)
         if result == 'yes':
             print('User chose to update.')
             subprocess.run('curl --output updater.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/updater.bat')
@@ -46,9 +45,18 @@ if os.path.exists(r'ffmpeg/bin/'):
     ffmpeg_path = abs_path + r'\ffmpeg\bin\ffmpeg.exe'
     print(ffmpeg_path)
 else:
-    # hoping ffmpeg is in the path :/
+    # hoping ffmpeg is in the path
     ffmpeg_path = 'ffmpeg.exe'
-yt_dlp_path = abs_path + r'\yt-dlp.exe'
+if os.path.exists(r'yt-dlp.exe'):
+    # local yt-dlp install
+    yt-dlp_path = abs_path + r'\yt-dlp.exe'
+    print(yt-dlp_path)
+else:
+    # hoping yt-dlp is in the path
+    yt-dlp_path = 'ffmpeg.exe'
+print(ffmpeg_path)
+print(yt-dlp_path)
+
 
 def clear_progress(progress_label, root):
     progress_label.config(text='                                  ')
