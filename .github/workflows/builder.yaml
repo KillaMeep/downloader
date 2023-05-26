@@ -11,25 +11,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Set up Git
-        run: |
-          git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git config --global user.name "${{ secrets.GIT_USERNAME }}"
-      
-      - name: Build
-        run: |
-          cd ${{ github.workspace }}
-          pip install pipreqs
-          curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
-          pip install pyinstaller
-          cmd /c installer.bat
-          cmd /c build.bat
-      
-      - name: Upload build result
-        uses: actions/upload-artifact@v3
-        with:
-          name: downloader
-          path: downloader.exe
+      # Commenting out the building part
+      # - name: Set up Git
+      #   run: |
+      #     git config --global user.email "${{ secrets.GIT_EMAIL }}"
+      #     git config --global user.name "${{ secrets.GIT_USERNAME }}"
+      # 
+      # - name: Build
+      #   run: |
+      #     cd ${{ github.workspace }}
+      #     pip install pipreqs
+      #     curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
+      #     pip install pyinstaller
+      #     cmd /c installer.bat
+      #     cmd /c build.bat
+      # 
+      # - name: Upload build result
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: downloader
+      #     path: downloader.exe
 
   job_2:
     name: Create Release
@@ -46,31 +47,31 @@ jobs:
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
 
+      - name: Extract short SHA
+        id: extract_sha
+        run: |
+          echo "::set-output name=sha_short::${{ env.GITHUB_SHA }}"
+          echo "SHA short: ${GITHUB_SHA:0:7}"
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: "release"
+          tag_name: "release-${{ steps.extract_sha.outputs.sha_short }}"
           release_name: "Release"
           body: |
             This is an automated release.
           draft: false
           prerelease: false
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: downloader
-          path: downloader
-
-      - name: Upload binary
+      - name: Upload file
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./downloader/downloader.exe
-          asset_name: downloader.exe
-          asset_content_type: application/octet-stream
+          asset_path: ./downloader.py
+          asset_name: downloader.py
+          asset_content_type: text/plain
