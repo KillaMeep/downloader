@@ -59,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: "release-${{ steps.extract_sha.outputs.sha_short }}"
+          tag_name: "auto-release-ver-${{ steps.extract_sha.outputs.sha_short }}"
           release_name: "Release"
           body: |
             This is an automated release.
