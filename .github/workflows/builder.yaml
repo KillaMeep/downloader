@@ -11,24 +11,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Set up Git
-        run: |
-          git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git config --global user.name "${{ secrets.GIT_USERNAME }}"
-      
-      - name: Build
-        run: |
-          cd ${{ github.workspace }}
-          pip install pipreqs
-          curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
-          pip install pyinstaller
-          cmd /c installer.bat
-          cmd /c build.bat
+      # Commenting out the building part
+      # - name: Set up Git
+      #   run: |
+      #     git config --global user.email "${{ secrets.GIT_EMAIL }}"
+      #     git config --global user.name "${{ secrets.GIT_USERNAME }}"
+      #
+      # - name: Build
+      #   run: |
+      #     cd ${{ github.workspace }}
+      #     pip install pipreqs
+      #     curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
+      #     pip install pyinstaller
+      #     cmd /c installer.bat
+      #     cmd /c build.bat
 
-      - name: Share file with workspace
-        run: |
-          echo ${{ github.workspace }}
-          copy downloader.exe ${{ github.workspace }}\downloader.exe
+      # - name: Share file with workspace
+      #   run: |
+      #     echo ${{ github.workspace }}
+      #     #copy downloader.exe ${{ github.workspace }}\downloader.exe
 
   job_2:
     name: Create Release
@@ -39,7 +40,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PUSH_TOKEN }}
-
+      - name: Grab from workspace
+        run: |
+          echo ${{ github.workspace }}
       - name: Set up Git
         run: |
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
