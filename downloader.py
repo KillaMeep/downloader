@@ -9,7 +9,7 @@ from tkinter import messagebox
 import sys
 from termcolor import colored,cprint
 
-#init color for windows
+#init color for windows (yay)
 os.system('color')
 
 def resource_path(relative_path):
