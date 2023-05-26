@@ -10,21 +10,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      # Commenting out the building part
-      # - name: Set up Git
-      #   run: |
-      #     git config --global user.email "${{ secrets.GIT_EMAIL }}"
-      #     git config --global user.name "${{ secrets.GIT_USERNAME }}"
-      #
-      # - name: Build
-      #   run: |
-      #     cd ${{ github.workspace }}
-      #     pip install pipreqs
-      #     curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
-      #     pip install pyinstaller
-      #     cmd /c installer.bat
-      #     cmd /c build.bat
+
+      - name: Set up Git
+        run: |
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "${{ secrets.GIT_USERNAME }}"
+
+      - name: Build
+        run: |
+          cd ${{ github.workspace }}
+          pip install pipreqs
+          curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
+          pip install pyinstaller
+          cmd /c installer.bat
+          cmd /c build.bat
 
       - name: Archive artifact
         uses: actions/upload-artifact@v2
