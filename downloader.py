@@ -6,6 +6,19 @@ import subprocess
 import requests
 import hashlib
 from tkinter import messagebox
+import sys
+
+
+def resource_path(relative_path):
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 
 def update(local_file_path, github_file_url):
     # Read the local file
@@ -37,20 +50,21 @@ def update(local_file_path, github_file_url):
             print('User chose not to update.')
 
 # Check for updates
-update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
-abs_path = os.path.abspath(os.getcwd())
+#update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
 os.system('if exist downloads del /s /q downloads')
-if os.path.exists(r'ffmpeg/bin/'):
+abs_path = __file__.split(os.path.basename(__file__))[0]
+print(f'Running from: {abs_path}')
+if os.path.exists(fr'{abs_path}\ffmpeg\bin'):
     # local ffmpeg install
     ffmpeg_path = abs_path + r'\ffmpeg\bin\ffmpeg.exe'
-    print(ffmpeg_path)
+    print(f'FFmpeg path: {ffmpeg_path}')
 else:
     # hoping ffmpeg is in the path
     ffmpeg_path = 'ffmpeg.exe'
-if os.path.exists(r'yt-dlp.exe'):
+if os.path.exists(fr'{abs_path}\yt-dlp.exe'):
     # local yt-dlp install
-    yt_dlp_path = abs_path + r'\yt-dlp.exe'
-    print(yt_dlp_path)
+    yt_dlp_path = abs_path + r'yt-dlp.exe'
+    print(f'yt-dlp path: {yt_dlp_path}')
 else:
     # hoping yt-dlp is in the path
     yt_dlp_path = 'yt-dlp.exe'
@@ -116,7 +130,7 @@ def download():
         progress_label.config(text=f'Complete! Closing in {5-x}')
         root.update()
         time.sleep(1)
-    exit(1)
+    sys.exit()
 
 root = tk.Tk()
 root.title("Downloader")
