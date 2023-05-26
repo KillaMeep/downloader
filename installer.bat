@@ -13,4 +13,4 @@ for /D %%i in (ffmpeg-*) do ren %%i ffmpeg
 move ffmpeg .. > nul
 cd ..
 rmdir /s /q ffmpeg_install
-start /b "" cmd /c del "%~f0"&exit /b
+start /b "" cmd /c del "%~f0"&&exit /b
