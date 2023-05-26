@@ -1,4 +1,4 @@
-name: Build and upload as release on push
+name: Build and Release
 
 on:
   push:
@@ -33,6 +33,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Create Git tag
+        run: git tag ${{ github.sha }}
+
+      - name: Push Git tag
+        run: git push origin ${{ github.sha }}
 
       - name: Create release
         id: create_release
