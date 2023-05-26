@@ -37,10 +37,10 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
 
       - name: Create Git tag
-        run: git tag -a -m "Release ${{ github.sha }}" "${{ github.sha:0:7 }}"
+        run: git tag -a -m "Release ${{ github.sha }}" "${{ github.sha }}"
 
       - name: Push Git tag
-        run: git push origin "${{ github.sha:0:7 }}"
+        run: git push origin "${{ github.sha }}"
 
       - name: Create release
         id: create_release
@@ -48,10 +48,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: "${{ github.sha:0:7 }}"
-          release_name: "Release ${{ github.sha:0:7 }}"
+          tag_name: ${{ github.sha }}
+          release_name: "Release ${{ github.sha }}"
           body: |
-            Release ${{ github.sha:0:7 }}
+            Release ${{ github.sha }}
             This is an automated release.
 
       - name: Download build artifact
