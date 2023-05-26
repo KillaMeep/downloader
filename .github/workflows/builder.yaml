@@ -14,7 +14,9 @@ jobs:
       - name: Build
         run: |
           cd ${{ github.workspace }}
+          pip install pipreqs
           curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
+          pip install pyinstaller
           cmd /c installer.bat
           cmd /c build.bat
       
