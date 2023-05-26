@@ -46,13 +46,16 @@ jobs:
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
 
+      - name: Extract short SHA
+        id: extract_sha
+        run: echo "::set-output name=sha_short::${{ github.sha | slice(0, 7) }}"
+
       - name: Create Git tag
         run: |
-          sha_short=$(echo ${{ github.sha }} | cut -c1-7)
-          git tag -a -m "Release ${{ github.sha }}" "release-${{ sha_short }}"
+          git tag -a -m "Release ${{ github.sha }}" "release-${{ steps.extract_sha.outputs.sha_short }}"
 
       - name: Push Git tag
-        run: git push origin "release-${{ sha_short }}"
+        run: git push origin "release-${{ steps.extract_sha.outputs.sha_short }}"
 
       - name: Create release
         id: create_release
@@ -60,7 +63,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: "release-${{ sha_short }}"
+          tag_name: "release-${{ steps.extract_sha.outputs.sha_short }}"
           release_name: "Release ${{ github.sha }}"
           body: |
             Release ${{ github.sha }}
