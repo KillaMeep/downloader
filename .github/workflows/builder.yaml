@@ -75,6 +75,8 @@ jobs:
           body: |
             Release ${{ steps.extract_sha.outputs.sha_short }}
             This is an automated release.
+          draft: false
+          prerelease: false
 
       - name: Download build artifact
         uses: actions/download-artifact@v3
