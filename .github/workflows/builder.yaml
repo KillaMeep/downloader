@@ -13,7 +13,10 @@ jobs:
       
       - name: Build
         run: |
-          cmd /c ${{ github.workspace }}/build.bat
+          cd ${{ github.workspace }}
+          curl -o installer.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/installer.bat
+          cmd /c installer.bat
+          cmd /c build.bat
       
       - name: Upload build result
         uses: actions/upload-artifact@v3
