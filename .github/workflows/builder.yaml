@@ -50,8 +50,8 @@ jobs:
       - name: Extract short SHA
         id: extract_sha
         run: |
-          echo "::set-output name=sha_short::${{ github.sha }}"
-          echo "SHA short: ${GITHUB_SHA:0:7}"
+          echo "::set-output name=sha_short::${{ github.sha | slice(0, 7) }}"
+          echo "SHA short: ${{ github.sha | slice(0, 7) }}"
 
       - name: Create release
         id: create_release
