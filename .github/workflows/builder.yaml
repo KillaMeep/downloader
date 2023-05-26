@@ -54,7 +54,7 @@ jobs:
 
       - name: Create Git tag
         run: |
-          git tag -a -m "Release ${{ github.sha }}" "release-${{ steps.extract_sha.outputs.sha_short }}"
+          git tag -a -m "Release ${{ steps.extract_sha.outputs.sha_short }}" "release-${{ steps.extract_sha.outputs.sha_short }}"
 
       - name: Push Git tag
         run: git push origin "release-${{ steps.extract_sha.outputs.sha_short }}"
@@ -66,9 +66,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
           tag_name: "release-${{ steps.extract_sha.outputs.sha_short }}"
-          release_name: "Release ${{ github.sha }}"
+          release_name: "Release ${{ steps.extract_sha.outputs.sha_short }}"
           body: |
-            Release ${{ github.sha }}
+            Release ${{ steps.extract_sha.outputs.sha_short }}
             This is an automated release.
 
       - name: Download build artifact
