@@ -27,6 +27,7 @@ jobs:
 
       - name: Share file with workspace
         run: |
+          echo ${{ github.workspace }}
           copy downloader.exe ${{ github.workspace }}\downloader.exe
 
   job_2:
