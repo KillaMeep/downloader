@@ -1,8 +1,8 @@
-name: Share data between jobs
+name: Build and upload as release on push
 
 on:
   push:
-
+  
 jobs:
   job_1:
     name: Build
@@ -25,3 +25,39 @@ jobs:
         with:
           name: downloader
           path: downloader.exe
+
+  job_2:
+    name: Create Release
+    needs: job_1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          body: |
+            Release ${{ github.sha }}
+            This is an automated release.
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: downloader
+          path: downloader
+
+      - name: Upload binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./downloader/downloader.exe
+          asset_name: downloader.exe
+          asset_content_type: application/octet-stream
