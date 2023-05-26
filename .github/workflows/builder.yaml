@@ -7,12 +7,14 @@ jobs:
     name: Build
     runs-on: windows-latest
     steps:
-      - shell: bash
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build
         run: |
-          src/build.bat
-      - uses: actions/checkout@v2
+          cd src
+          ./build.bat
       - name: Upload build result
         uses: actions/upload-artifact@v3
         with:
           name: downloader
-          path: downloader.exe
+          path: src/downloader.exe
