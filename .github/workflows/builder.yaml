@@ -8,7 +8,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - working-directory: ${{env.GITHUB_WORKSPACE}}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - shell: bash
         run: |
           ./build.bat
