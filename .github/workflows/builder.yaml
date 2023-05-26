@@ -52,6 +52,11 @@ jobs:
           echo "::set-output name=sha_short::${{ env.GITHUB_SHA }}"
           echo "SHA short: ${GITHUB_SHA:0:7}"
 
+      - name: Delete existing tag
+        run: |
+          git tag -d "release-${{ steps.extract_sha.outputs.sha_short }}" || true
+          git push origin ":refs/tags/release-${{ steps.extract_sha.outputs.sha_short }}" || true
+
       - name: Create Git tag
         run: |
           git tag -a -m "Release ${{ steps.extract_sha.outputs.sha_short }}" "release-${{ steps.extract_sha.outputs.sha_short }}"
