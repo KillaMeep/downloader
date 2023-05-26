@@ -5,6 +5,8 @@ import time
 import subprocess
 import requests
 import hashlib
+from tkinter import messagebox
+
 def update(local_file_path, github_file_url):
     # Read the local file
     with open(local_file_path, 'rb') as file:
@@ -24,34 +26,40 @@ def update(local_file_path, github_file_url):
     if local_hash == github_hash:
         print("Up to date")
     else:
-        update_q = input("New version detected. Update? (y/n): ")
-        if update_q == 'y':
+        result = messagebox.askquestion("Update Available", "New version detected. Update?")
+        print(result)
+        if result == 'yes':
+            print('User chose to update.')
             subprocess.run('curl --output updater.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/updater.bat')
             os.system('start updater.bat')
+            time.sleep(10)
             exit(1)
+        if result == 'no':
+            print('User chose not to update.')
 
-#check for updates
-update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
+# Check for updates
+update('updateui.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
 abs_path = os.path.abspath(os.getcwd())
 os.system('if exist downloads del /s /q downloads')
 if os.path.exists(r'ffmpeg/bin/'):
-    #local ffmpeg install
+    # local ffmpeg install
     ffmpeg_path = abs_path + r'\ffmpeg\bin\ffmpeg.exe'
     print(ffmpeg_path)
 else:
-    #hoping ffmpeg is in the path :/
+    # hoping ffmpeg is in the path :/
     ffmpeg_path = 'ffmpeg.exe'
 yt_dlp_path = abs_path + r'\yt-dlp.exe'
-def clear_progress(progress_label,root):
+
+def clear_progress(progress_label, root):
     progress_label.config(text='                                  ')
     root.update()
-def download():
 
+def download():
     os.system('if not exist downloads mkdir downloads')
     os.chdir('downloads')
     text = text_entry.get("1.0", "end-1c")
     urls = text.split('\n')  # Split the text into an array at every '\n'
-    
+
     # Loop through and download from each url
     for x in range(0, len(urls)):
         # Update the prompt to show progress
@@ -75,19 +83,19 @@ def download():
             convert_files.append(files[x])
     # If there are any webm files, convert them
     if convert_files:
-        clear_progress(progress_label,root)
+        clear_progress(progress_label, root)
         # Update the prompt to show progress
         for x in range(0, len(convert_files)):
             progress_label.config(text=f'Converting {x+1}/{len(convert_files)} | {final_names[x]}')
             root.update()  # Update the GUI
             subprocess.run(f'"{ffmpeg_path}" -i "{convert_files[x]}" "{final_names[x]}.mp4"')
-    clear_progress(progress_label,root)
+    clear_progress(progress_label, root)
     for x in range(0, len(files)):
         print('copying')
         if final_names != []:
             progress_label.config(text=f'Copying file(s) {x+1}/{len(final_names)} | {final_names[x]}')
             os.system(f'copy "{final_names[x]}.mp4" .. > nul 2>&1')
-            
+
         else:
             print(f'filename: "{files[x]}"')
             progress_label.config(text=f'Copying file(s) {x+1}/{len(files)} | {files[x]}')
@@ -96,8 +104,8 @@ def download():
 
     os.chdir('..')
     os.system('rmdir /s /q downloads')
-    clear_progress(progress_label,root)
-    for x in range(0,5):
+    clear_progress(progress_label, root)
+    for x in range(0, 5):
         progress_label.config(text=f'Complete! Closing in {5-x}')
         root.update()
         time.sleep(1)
