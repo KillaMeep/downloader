@@ -20,7 +20,7 @@ def resource_path(relative_path):
 
 
 
-def update(local_file_path, github_file_url):
+def update(local_file_path, github_file_url,exe):
     # Read the local file
     with open(local_file_path, 'rb') as file:
         local_data = file.read()
@@ -42,15 +42,18 @@ def update(local_file_path, github_file_url):
         result = messagebox.askquestion("Update Available", "New version detected. Update?")
         if result == 'yes':
             print('User chose to update.')
-            subprocess.run('curl --output updater.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/updater.bat')
-            os.system('start updater.bat')
-            time.sleep(10)
-            exit(1)
+            if exe == False:
+                subprocess.run('curl --output updater.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/updater.bat')
+                os.system('start updater.bat && exit')
+                exit(1)
+            elif exe == True:
+                subprocess.run('curl -o install-exe.bat https://raw.githubusercontent.com/KillaMeep/downloader/main/install-exe.bat')
+                os.system('start install-exe.bat && exit')
+                exit(1)
         if result == 'no':
             print('User chose not to update.')
 
 # Check for updates
-#update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
 os.system('if exist downloads del /s /q downloads')
 abs_path = __file__.split(os.path.basename(__file__))[0]
 print(f'Running from: {abs_path}')
@@ -68,8 +71,17 @@ if os.path.exists(fr'{abs_path}\yt-dlp.exe'):
 else:
     # hoping yt-dlp is in the path
     yt_dlp_path = 'yt-dlp.exe'
-    
 
+
+
+#check updates
+if os.path.exists(f'{abs_path}\IsEXE'):
+    print('Running as .exe')
+    print(os.getcwd())
+    update(fr'{os.getcwd()}\downloader.exe','https://github.com/killameep/downloader/releases/latest/download/downloader.exe',True)
+else:
+    print('Running as .py')
+    update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py',False)
 
 def clear_progress(progress_label, root):
     progress_label.config(text='                                  ')
