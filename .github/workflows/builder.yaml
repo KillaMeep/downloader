@@ -27,7 +27,7 @@ jobs:
 
       - name: Share file with workspace
         run: |
-          cp downloader.exe ${{ github.workspace }}/downloader.exe
+          copy ${{ github.workspace }}\dist\downloader.exe ${{ github.workspace }}\downloader.exe
 
   job_2:
     name: Create Release
