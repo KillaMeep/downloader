@@ -7,6 +7,5 @@ del /s /q downloader.spec
 rmdir /s /q build
 copy dist/downloader.exe ..
 rmdir /s /q dist
-cd ..
-copy dist/downloader.exe ..
+copy downloader.exe ..
 exit
