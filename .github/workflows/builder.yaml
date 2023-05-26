@@ -47,10 +47,12 @@ jobs:
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
 
       - name: Create Git tag
-        run: git tag -a -m "Release ${{ github.sha }}" "${{ github.sha }}"
+        run: |
+          sha_short=$(echo ${{ github.sha }} | cut -c1-7)
+          git tag -a -m "Release ${{ github.sha }}" "release-${{ sha_short }}"
 
       - name: Push Git tag
-        run: git push origin "${{ github.sha }}"
+        run: git push origin "release-${{ sha_short }}"
 
       - name: Create release
         id: create_release
@@ -58,7 +60,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: ${{ github.sha }}
+          tag_name: "release-${{ sha_short }}"
           release_name: "Release ${{ github.sha }}"
           body: |
             Release ${{ github.sha }}
