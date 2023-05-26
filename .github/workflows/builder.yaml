@@ -1,1 +1,17 @@
-init
+name: Share data between jobs
+
+on: [push]
+
+jobs:
+  job_1:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - shell: bash
+        run: |
+          build.bat
+      - name: Upload build result
+        uses: actions/upload-artifact@v3
+        with:
+          name: downloader
+          path: downloader.exe
