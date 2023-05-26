@@ -1,6 +1,10 @@
 @echo off
 mkdir Downloader
 cd Downloader
+pip install pipreqs
+pipreqs
+pip insall -r requirements.txt
+del /s /q requirements.txt
 curl --output downloader.py https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py
 curl -L -O https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe
 mkdir ffmpeg_install
@@ -12,6 +16,4 @@ for /D %%i in (ffmpeg-*) do ren %%i ffmpeg
 move ffmpeg .. > nul
 cd ..
 rmdir /s /q ffmpeg_install
-pip install tk
-pip install pyinstaller
 start /b "" cmd /c del "%~f0"&exit /b
