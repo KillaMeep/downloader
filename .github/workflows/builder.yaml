@@ -1,20 +1,22 @@
 name: Share data between jobs
 
-on: [push]
+on:
+  push:
 
 jobs:
   job_1:
     name: Build
     runs-on: windows-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
+      
       - name: Build
         run: |
-          cd src
-          ./build.bat
+          cmd /c src\build.bat
+      
       - name: Upload build result
         uses: actions/upload-artifact@v3
         with:
           name: downloader
-          path: src/downloader.exe
+          path: downloader.exe
