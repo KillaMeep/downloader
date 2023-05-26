@@ -7,7 +7,9 @@ import requests
 import hashlib
 from tkinter import messagebox
 import sys
+from termcolor import colored,cprint
 
+os.system('color')
 
 def resource_path(relative_path):
     try:
@@ -22,6 +24,7 @@ def resource_path(relative_path):
 
 def update(local_file_path, github_file_url,exe):
     # Read the local file
+    cprint('Please wait. Checking for updates, this may take a minute.','yellow')
     with open(local_file_path, 'rb') as file:
         local_data = file.read()
 
