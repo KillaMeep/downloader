@@ -47,15 +47,14 @@ if os.path.exists(r'ffmpeg/bin/'):
 else:
     # hoping ffmpeg is in the path
     ffmpeg_path = 'ffmpeg.exe'
+    print(ffmpeg_path)
 if os.path.exists(r'yt-dlp.exe'):
     # local yt-dlp install
-    yt-dlp_path = abs_path + r'\yt-dlp.exe'
-    print(yt-dlp_path)
+    yt_dlp_path = abs_path + r'\yt-dlp.exe'
 else:
     # hoping yt-dlp is in the path
-    yt-dlp_path = 'ffmpeg.exe'
-print(ffmpeg_path)
-print(yt-dlp_path)
+    yt_dlp_path = 'yt-dlp.exe'
+    print(yt_dlp_path)
 
 
 def clear_progress(progress_label, root):
