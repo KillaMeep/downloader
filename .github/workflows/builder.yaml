@@ -47,11 +47,9 @@ jobs:
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
 
-      - name: Extract short SHA
-        id: extract_sha
-        run: |
-          echo "::set-output name=sha_short::${{ github.sha }}"
-          echo "SHA short: ${{ github.sha | truncate(7, '') }}"
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%m-%d-%y')"
 
       - name: Create release
         id: create_release
@@ -59,8 +57,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: "release-${{ steps.extract_sha.outputs.sha_short }}"
-          release_name: "Release"
+          tag_name: "release-${{ steps.date.outputs.date }}"
+          release_name: "Release ${{ steps.date.outputs.date }}"
           body: |
             This is an automated release.
           draft: false
