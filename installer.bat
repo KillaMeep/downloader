@@ -1,4 +1,5 @@
 @echo off
+timeout /t 5 /nobreak > NUL
 mkdir Downloader
 cd Downloader
 start /b "" cmd /c pip install pipreqs && pipreqs && pip install -r requirements.txt && del /s /q requirements.txt
