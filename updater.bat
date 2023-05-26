@@ -1,4 +1,5 @@
 @echo off
+timeout /t 5 /nobreak > NUL
 rmdir /s /q ffmpeg
 del /s /q downloader.py
 del /s /q yt-dlp.exe
