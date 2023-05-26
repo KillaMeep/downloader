@@ -38,7 +38,7 @@ def update(local_file_path, github_file_url):
             print('User chose not to update.')
 
 # Check for updates
-update('updateui.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
+update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py')
 abs_path = os.path.abspath(os.getcwd())
 os.system('if exist downloads del /s /q downloads')
 if os.path.exists(r'ffmpeg/bin/'):
