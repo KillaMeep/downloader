@@ -7,11 +7,11 @@ jobs:
     name: Build
     runs-on: windows-latest
     steps:
-      - working-directory: ${{env.GITHUB_WORKSPACE}}
-      - uses: actions/checkout@v2
       - shell: bash
         run: |
           ./build.bat
+      - working-directory: ${{env.GITHUB_WORKSPACE}}
+      - uses: actions/checkout@v2
       - name: Upload build result
         uses: actions/upload-artifact@v3
         with:
