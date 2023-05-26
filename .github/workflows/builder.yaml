@@ -47,19 +47,13 @@ jobs:
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
 
-      - name: Extract short SHA
-        id: extract_sha
-        run: |
-          echo "::set-output name=sha_short::${{ env.GITHUB_SHA }}"
-          echo "SHA short: ${GITHUB_SHA:0:7}"
-
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         with:
-          tag_name: "release/rel-${{ steps.extract_sha.outputs.sha_short }}"
+          tag_name: "release/rel-${{ github.sha }}"
           release_name: "Release"
           body: |
             This is an automated release.
