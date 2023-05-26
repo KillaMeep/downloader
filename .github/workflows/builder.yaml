@@ -13,7 +13,7 @@ jobs:
       
       - name: Build
         run: |
-          cmd /c src\build.bat
+          cmd /c ${{ github.workspace }}/build.bat
       
       - name: Upload build result
         uses: actions/upload-artifact@v3
