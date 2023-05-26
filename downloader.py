@@ -80,10 +80,11 @@ else:
 #check updates
 if os.path.exists(f'{abs_path}\IsEXE'):
     print('Running as .exe')
-    print(os.getcwd())
+    print(f'Running in: {os.getcwd()}')
     update(fr'{os.getcwd()}\downloader.exe','https://github.com/killameep/downloader/releases/latest/download/downloader.exe',True)
 else:
     print('Running as .py')
+    print(f'Running in: {os.getcwd()}')
     update('downloader.py','https://raw.githubusercontent.com/KillaMeep/downloader/main/downloader.py',False)
 
 def clear_progress(progress_label, root):
