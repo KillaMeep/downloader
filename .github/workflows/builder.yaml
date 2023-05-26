@@ -9,7 +9,7 @@ jobs:
     steps:
       - shell: bash
         run: |
-          shell: ./build.bat
+          ./build.bat
       - uses: actions/checkout@v2
       - name: Upload build result
         uses: actions/upload-artifact@v3
