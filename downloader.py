@@ -103,6 +103,9 @@ def download():
         # Update the prompt to show progress
         progress_label.config(text=f'Downloading {x+1}/{len(urls)}')
         root.update()  # Update the GUI
+        filename = subprocess.getoutput(f'{yt_dlp_path} --print filename {urls[x]}')
+        ext = os.path.splitext(filename)[-1].lower()
+        print('Filetype: ', ext, ' Converting to .mp4')
         subprocess.run(fr'{yt_dlp_path} {urls[x]}')
 
     files = os.listdir(os.getcwd())
