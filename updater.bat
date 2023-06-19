@@ -18,3 +18,4 @@ pip install tk
 pip install pyinstaller
 start downloader.py
 start /b "" cmd /c del "%~f0"&exit /b
+exit
