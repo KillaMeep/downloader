@@ -103,7 +103,7 @@ def download():
         # Update the prompt to show progress
         progress_label.config(text=f'Downloading {x+1}/{len(urls)}')
         root.update()  # Update the GUI
-        subprocess.run(fr'{yt_dlp_path} {urls[x]} -S ext:mp4:m4a')
+        subprocess.run(fr'{yt_dlp_path} {urls[x]} -S ext:mp4:m4a --no-mtime')
 
     files = os.listdir(os.getcwd())
     print(files)
